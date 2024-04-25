@@ -19,7 +19,6 @@ export class PseudoTerminal {
     let term = fork(SHELL, [], {
       cols: 100,
       name: "xterm",
-      // cwd: path.join(__dirname, `../tmp/${pgId}`),
       cwd: "../workspace/nodejs",
     });
 
