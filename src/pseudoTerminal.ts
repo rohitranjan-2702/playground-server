@@ -1,4 +1,4 @@
-//@ts-ignore => someone fix this
+//@ts-ignore
 import { fork, IPty } from "node-pty";
 import path from "path";
 
@@ -19,7 +19,8 @@ export class PseudoTerminal {
     let term = fork(SHELL, [], {
       cols: 100,
       name: "xterm",
-      cwd: path.join(__dirname, `../tmp/${pgId}`),
+      // cwd: path.join(__dirname, `../tmp/${pgId}`),
+      cwd: "../workspace/nodejs",
     });
 
     term.on("data", (data: string) => onData(data, term.pid));
@@ -30,6 +31,7 @@ export class PseudoTerminal {
     term.on("exit", () => {
       delete this.sessions[term.pid];
     });
+    console.log(this.sessions);
     return term;
   }
 
