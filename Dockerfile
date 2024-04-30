@@ -7,7 +7,9 @@ ENV DATABASE_URL ${DATABASE_URL}
 
 RUN groupadd -r user && useradd -r -g user user
 
-RUN mkdir /usr/workspace
+RUN mkdir /usr/src/workspace
+
+COPY workspaces/ /usr/src/workspace/
 
 # Setting up the work directory
 WORKDIR /usr/src/app
@@ -17,18 +19,19 @@ COPY package*.json ./
 RUN apt-get update -y && apt-get install -y openssl
 
 # Installing pm2 globally
-RUN npm install pm2 -g
+# RUN npm install pm2 -g
 
 # Installing dependencies
 RUN npm install
 
 COPY . .
 
-COPY --chown=user:user . /usr/src/app
-RUN chmod -R 700 /usr/src/app
+# COPY --chown=user:user . /usr/src/app
+# RUN chmod -R 700 /usr/src/app
 
 # Exposing server port
 EXPOSE 8000
+EXPOSE 3000
 
 # Starting our application
 CMD ["npm", "run", "dev"]
