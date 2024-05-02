@@ -126,7 +126,7 @@ io.on("connection", async (socket) => {
   );
 });
 
-app.get("/", (req, res) => {
+app.get("/server", (req, res) => {
   res.send("Server Running fine!");
 });
 

@@ -1,9 +1,20 @@
+# FROM ubuntu:20.04
+
+# # install node
+# RUN apt-get update && apt-get install -y curl gnupg
+
+# RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
+
+# # install node
+# RUN apt-get install -y nodejs
+
+# # install nginx
+# RUN apt-get install -y nginx
+
+# RUN sudo docker cp nginx-base:/etc/nginx/conf.d/default.conf ~/Desktop/default.conf
+
 # Fetching the minified node image on apline linux
 FROM node:20
-
-# Declaring env
-ARG DATABASE_URL
-ENV DATABASE_URL ${DATABASE_URL}
 
 RUN groupadd -r user && useradd -r -g user user
 
@@ -30,8 +41,7 @@ COPY . .
 # RUN chmod -R 700 /usr/src/app
 
 # Exposing server port
-EXPOSE 8000
-EXPOSE 3000
+# EXPOSE 3000
 
 # Starting our application
 CMD ["npm", "run", "dev"]

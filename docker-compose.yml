@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  # nodejs application
+  api:
+    # container_name: nodejs-api
+    build: .
+    # ports:
+    #   - "3000:3000"
+    # we need to use nginx as a reverse proxy and load balancer
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    ports:
+      - 3000:3000
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+    depends_on:
+      - api
