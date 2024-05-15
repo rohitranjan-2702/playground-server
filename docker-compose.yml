@@ -2,18 +2,42 @@ version: '3.9'
 
 services:
   # nodejs application
+  # client:
+  #   image: rohitranjan2702/pgcllient
+  #   ports:
+  #     - 3001:3000
+  #   depends_on:
+  #     - api
   api:
     # container_name: nodejs-api
     build: .
     # ports:
     #   - "3000:3000"
     # we need to use nginx as a reverse proxy and load balancer
+    
   nginx:
     container_name: nginx
+    restart: unless-stopped
     image: nginx:latest
     ports:
-      - 3000:3000
+      - 80:80
+      - 443:443
     volumes:
       - ./conf.d:/etc/nginx/conf.d
+      - ./certbot/conf:/etc/letsencrypt 
+      - ./certbot/www:/var/www/certbot 
     depends_on:
       - api
+
+  certbot: 
+    image: certbot/certbot 
+    container_name: certbot 
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot 
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email rohitranjan2702@gmail.com -d example.devphilic.tech  --agree-tos
+    # certonly: only generate certificate without installing
+    # w: root directory of webserver for the challenges
+    # agree-tos: agree the terms of service automatically
+    # force-renewal: on repeated run renew certificates
+    # webroot: use our own webserver in this case NGINX
