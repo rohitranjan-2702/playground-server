@@ -142,7 +142,7 @@ app.get("/content", async (req, res) => {
   res.send(data);
 });
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8000;
 httpServer.listen(port, () => {
   console.log(`server listening on port:${port}`);
 });
